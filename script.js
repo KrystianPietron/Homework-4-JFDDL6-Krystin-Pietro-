@@ -1,21 +1,20 @@
-class ToDo{
-    constructor(){
-        this.tasks = []
-        this.render();
-    }
+class ToDo {
+  constructor(container) {
+    this.container = container;
+    this.tasks = []
+    this.renderElement();
+  }
 
-    addTask(){
-
-    }
-    render(){
-    document.body.innerHTML=''
-    const ul = document.createElement("ol");
-    this.tasks.forEach(task => {
-      const div = document.createElement("li");
-      ul.appendChild(div);
-    });
-    document.body.appendChild(ul);
-    }
+  render() {}
+  addTask() {}
+  renderElement() {
+    this.container.innerHTML = "";
+    const inp = document.createElement("input");
+    const but = document.createElement("button");
+    but.innerText = "Dodaj";
+    but.addEventListener('click', ()=>{this.tasks.push(inp)})
+    this.container.appendChild(inp);
+    this.container.appendChild(but);
+  }
 }
-const toDo1 = new ToDo();
-console.log(toDo1);
+const toDo1 = new ToDo(document.body);
