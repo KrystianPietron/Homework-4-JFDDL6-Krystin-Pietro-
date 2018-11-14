@@ -13,17 +13,20 @@ class ToDo {
     this.tasks.forEach((task, i) => {
       const li = document.createElement("li");
       const butt = document.createElement("button");
-      butt.innerText = "clear";
+      butt.innerText = "Remove Task";
       li.innerText = task;
       ul.appendChild(li);
       ul.appendChild(butt);
-      li.addEventListener("click", () => alert(`asd`));
+      li.addEventListener("click", () => {
+        li.style.textDecoration='line-through',
+         alert('Task completed')
+      });
       butt.addEventListener("click", () => {
         this.tasks.splice(i, 1);
         this.render();
       });
     });
-    this.container.appendChild(ul)
+    this.container.appendChild(ul);
   }
   addTask(text) {
     this.text = text;
@@ -34,12 +37,18 @@ class ToDo {
   renderElement() {
     const inp = document.createElement("input");
     const but = document.createElement("button");
-    but.innerText = "Dodaj";
+    const butc = document.createElement("button");
+    but.innerText = "Add Task";
+    butc.innerText = "Remove all tasks";
     but.addEventListener("click", () => {
       this.addTask(inp.value);
     });
+    butc.addEventListener("click", () => {
+      (this.tasks = []), this.render();
+    });
     this.container.appendChild(inp);
     this.container.appendChild(but);
+    this.container.appendChild(butc);
   }
 }
 const toDo1 = new ToDo(document.body);
