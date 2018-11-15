@@ -4,9 +4,7 @@ class ToDo {
     this.tasks = [];
     this.renderElement();
     this.render();
-    
   }
-
   render() {
     this.container.innerHTML = "";
     this.renderElement();
@@ -15,31 +13,32 @@ class ToDo {
       const li = document.createElement("li");
       const butt = document.createElement("button");
       butt.innerText = "Remove Task";
-      if (this.tasks[i].value === 1) {
-        li.style.textDecoration = "line-through";
-      }
       li.innerText = task;
+      localStorage.setItem(i,task)
       ul.appendChild(li);
       ul.appendChild(butt);
       li.addEventListener("click", () => {
         (li.style.textDecoration = "line-through"),
-          alert("Task completed"),
-          (this.tasks[i].value = true);
+          alert("Task completed")
       });
       butt.addEventListener("click", () => {
         this.tasks.splice(i, 1);
+        localStorage.removeItem(i)
         this.render();
       });
     });
     this.container.appendChild(ul);
-    this.renderSearch();
+    this.renderElementSearch();
   }
   addTask(text) {
     this.text = text;
     this.tasks.push(text);
     this.render();
   }
-  renderSearch() {
+  addSearch(search){
+    this.search = search;
+  }
+  renderElementSearch() {
     const inptsrch = document.createElement("input");
     const butsrch = document.createElement('button')
     butsrch.innerText = 'Search'
