@@ -2,7 +2,9 @@ class ToDo {
   constructor(container) {
     this.container = container;
     this.tasks = [];
-    this.renderElement();
+    this.init();
+  }
+  init() {
     const recarr = localStorage.getItem("tablica");
     if (recarr != null) {
       this.tasks = JSON.parse(recarr);
@@ -11,9 +13,13 @@ class ToDo {
   }
   render() {
     this.container.innerHTML = "";
-
     console.log(this.tasks);
     this.renderElement();
+    this.renderList();
+    this.renderElementSearch();
+    this.renderFiltration();
+  }
+  renderList() {
     const ul = document.createElement("ul");
     this.tasks.forEach((task, i) => {
       const li = document.createElement("li");
@@ -27,7 +33,8 @@ class ToDo {
       ul.appendChild(li);
       ul.appendChild(butt);
       li.addEventListener("click", () => {
-        task.t = 1,
+        (task.t = 1),
+          localStorage.setItem("tablica", JSON.stringify(this.tasks)),
           (li.style.textDecoration = "line-through"),
           alert("Task completed");
       });
@@ -38,8 +45,6 @@ class ToDo {
       });
     });
     this.container.appendChild(ul);
-    this.renderElementSearch();
-    this.renderFiltration();
   }
   addTask(text) {
     this.text = text;
@@ -53,6 +58,24 @@ class ToDo {
     finisch.innerText = "completed";
     nfinisch.innerText = "not completed";
     all.innerText = "all";
+    finisch.addEventListener("click", () => {
+      const arr2 = [];
+      this.tasks.filter(function(el) {
+        if (el.t === 1) {
+          arr2.push(el.text);
+        }
+      });
+      console.log(arr2);
+    });
+    nfinisch.addEventListener("click", () => {
+      const arr2 = [];
+      this.tasks.filter(function(el) {
+        if (el.t === 0) {
+          arr2.push(el.text);
+        }
+      });
+      console.log(arr2);
+    });
     this.container.appendChild(finisch);
     this.container.appendChild(nfinisch);
     this.container.appendChild(all);
@@ -65,6 +88,16 @@ class ToDo {
     const inptsrch = document.createElement("input");
     const butsrch = document.createElement("button");
     butsrch.innerText = "Search";
+    butsrch.addEventListener("click", () => {
+      const arr2 = [];
+      console.log(inptsrch.value);
+      this.tasks.filter(function(el) {
+        if (el.text === inptsrch.value) {
+          arr2.push(inptsrch.value);
+        }
+      });
+      console.log(arr2);
+    });
     this.container.appendChild(inptsrch);
     this.container.appendChild(butsrch);
   }
@@ -72,13 +105,15 @@ class ToDo {
     const inp = document.createElement("input");
     const but = document.createElement("button");
     const butc = document.createElement("button");
+
     but.innerText = "Add Task";
     butc.innerText = "Remove all tasks";
+
     but.addEventListener("click", () => {
-      this.addTask(inp.value), this.render();
+      this.addTask(inp.value);
     });
     butc.addEventListener("click", () => {
-      (this.tasks = []), this.render();
+      (this.tasks = []), localStorage.clear(), this.render();
     });
     this.container.appendChild(inp);
     this.container.appendChild(but);
