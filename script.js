@@ -11,7 +11,7 @@ class ToDo {
     }
     this.render();
   }
-  render() {
+  render(arr) {
     this.container.innerHTML = "";
     console.log(this.tasks);
     this.renderElement();
@@ -71,6 +71,15 @@ class ToDo {
       const arr2 = [];
       this.tasks.filter(function(el) {
         if (el.t === 0) {
+          arr2.push(el.text);
+        }
+      });
+      console.log(arr2);
+    });
+    all.addEventListener("click", () => {
+      const arr2 = [];
+      this.tasks.filter(function(el) {
+        if (el.t === 0 || el.t === 1) {
           arr2.push(el.text);
         }
       });
