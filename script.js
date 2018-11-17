@@ -137,7 +137,7 @@ class ToDo {
       this.addTask(inp.value);
     });
     butc.addEventListener("click", () => {
-      this.tasks = [], localStorage.clear(), this.render(this.tasks);
+      this.tasks = [],this.filterTasks = [], localStorage.clear(), this.render(this.filterTasks);
     });
     this.container.appendChild(inp);
     this.container.appendChild(but);
