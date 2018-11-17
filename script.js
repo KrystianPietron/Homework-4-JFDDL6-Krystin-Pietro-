@@ -35,7 +35,9 @@ class ToDo {
         li.style.textDecoration = "line-through";
       }
       ul.appendChild(li);
-      if(arr === this.tasks){ul.appendChild(butt);}      
+      if (arr === this.tasks) {
+        ul.appendChild(butt);
+      }
       li.addEventListener("click", () => {
         (task.t = 1),
           localStorage.setItem("tablica", JSON.stringify(this.tasks)),
@@ -70,8 +72,10 @@ class ToDo {
         }
       });
       this.filterTasks = arr2;
-      if(arr2.length === 0){alert('The finish list is empty')}
-      console.log(this.filterTasks)
+      if (arr2.length === 0) {
+        alert("The finish list is empty");
+      }
+      console.log(this.filterTasks);
       this.render(this.filterTasks);
     });
     nfinisch.addEventListener("click", () => {
@@ -82,19 +86,22 @@ class ToDo {
         }
       });
       this.filterTasks = arr2;
-      if(arr2.length === 0){alert('The not finish list is empty')}
-      console.log(this.filterTasks)
+      if (arr2.length === 0) {
+        alert("The not finish list is empty");
+      }
+      console.log(this.filterTasks);
       this.render(this.filterTasks);
     });
     all.addEventListener("click", () => {
       this.render(this.tasks);
-      if(this.tasks.length === 0){alert('The list is empty')}
+      if (this.tasks.length === 0) {
+        alert("The list is empty");
+      }
     });
     this.container.appendChild(finisch);
     this.container.appendChild(nfinisch);
     this.container.appendChild(all);
   }
-
   addSearch(search) {
     this.search = search;
   }
@@ -111,8 +118,10 @@ class ToDo {
         }
       });
       this.filterTasks = arr2;
-      if(arr2.length === 0){alert('Task not find')}
-      console.log(this.filterTasks)
+      if (arr2.length === 0) {
+        alert("Task not find");
+      }
+      console.log(this.filterTasks);
       this.render(this.filterTasks);
     });
     this.container.appendChild(inptsrch);
@@ -128,7 +137,7 @@ class ToDo {
       this.addTask(inp.value);
     });
     butc.addEventListener("click", () => {
-      (this.tasks = []), localStorage.clear(), this.render();
+      this.tasks = [], localStorage.clear(), this.render(this.tasks);
     });
     this.container.appendChild(inp);
     this.container.appendChild(but);
