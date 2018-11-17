@@ -2,6 +2,7 @@ class ToDo {
   constructor(container) {
     this.container = container;
     this.tasks = [];
+    this.filterTasks = [];
     this.init();
   }
   init() {
@@ -13,15 +14,18 @@ class ToDo {
   }
   render(arr) {
     this.container.innerHTML = "";
-    console.log(this.tasks);
     this.renderElement();
-    this.renderList();
+    if (this.filterTasks.length === 0) {
+      this.renderList(this.tasks);
+    } else {
+      this.renderList(arr);
+    }
     this.renderElementSearch();
     this.renderFiltration();
   }
-  renderList() {
+  renderList(arr) {
     const ul = document.createElement("ul");
-    this.tasks.forEach((task, i) => {
+    arr.forEach((task, i) => {
       const li = document.createElement("li");
       const butt = document.createElement("button");
       butt.innerText = "Remove Task";
@@ -31,7 +35,7 @@ class ToDo {
         li.style.textDecoration = "line-through";
       }
       ul.appendChild(li);
-      ul.appendChild(butt);
+      if(arr === this.tasks){ul.appendChild(butt);}      
       li.addEventListener("click", () => {
         (task.t = 1),
           localStorage.setItem("tablica", JSON.stringify(this.tasks)),
@@ -41,7 +45,7 @@ class ToDo {
       butt.addEventListener("click", () => {
         this.tasks.splice(i, 1);
         localStorage.setItem("tablica", JSON.stringify(this.tasks));
-        this.render();
+        this.render(arr);
       });
     });
     this.container.appendChild(ul);
@@ -62,28 +66,29 @@ class ToDo {
       const arr2 = [];
       this.tasks.filter(function(el) {
         if (el.t === 1) {
-          arr2.push(el.text);
+          arr2.push(el);
         }
       });
-      console.log(arr2);
+      this.filterTasks = arr2;
+      if(arr2.length === 0){alert('The finish list is empty')}
+      console.log(this.filterTasks)
+      this.render(this.filterTasks);
     });
     nfinisch.addEventListener("click", () => {
       const arr2 = [];
       this.tasks.filter(function(el) {
         if (el.t === 0) {
-          arr2.push(el.text);
+          arr2.push(el);
         }
       });
-      console.log(arr2);
+      this.filterTasks = arr2;
+      if(arr2.length === 0){alert('The not finish list is empty')}
+      console.log(this.filterTasks)
+      this.render(this.filterTasks);
     });
     all.addEventListener("click", () => {
-      const arr2 = [];
-      this.tasks.filter(function(el) {
-        if (el.t === 0 || el.t === 1) {
-          arr2.push(el.text);
-        }
-      });
-      console.log(arr2);
+      this.render(this.tasks);
+      if(this.tasks.length === 0){alert('The list is empty')}
     });
     this.container.appendChild(finisch);
     this.container.appendChild(nfinisch);
@@ -101,11 +106,14 @@ class ToDo {
       const arr2 = [];
       console.log(inptsrch.value);
       this.tasks.filter(function(el) {
-        if (el.text === inptsrch.value) {
-          arr2.push(inptsrch.value);
+        if (el.text == inptsrch.value) {
+          arr2.push(el);
         }
       });
-      console.log(arr2);
+      this.filterTasks = arr2;
+      if(arr2.length === 0){alert('Task not find')}
+      console.log(this.filterTasks)
+      this.render(this.filterTasks);
     });
     this.container.appendChild(inptsrch);
     this.container.appendChild(butsrch);
@@ -114,10 +122,8 @@ class ToDo {
     const inp = document.createElement("input");
     const but = document.createElement("button");
     const butc = document.createElement("button");
-
     but.innerText = "Add Task";
     butc.innerText = "Remove all tasks";
-
     but.addEventListener("click", () => {
       this.addTask(inp.value);
     });
