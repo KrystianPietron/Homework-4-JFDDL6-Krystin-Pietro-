@@ -6,7 +6,7 @@ class ToDo {
     this.init();
   }
   init() {
-    const recarr = localStorage.getItem("tablica");
+    const recarr = localStorage.getItem("LocalArray");
     if (recarr != null) {
       this.tasks = JSON.parse(recarr);
     }
@@ -30,7 +30,7 @@ class ToDo {
       const butt = document.createElement("button");
       butt.innerText = "Remove Task";
       li.innerText = task.text;
-      localStorage.setItem("tablica", JSON.stringify(this.tasks));
+      localStorage.setItem("LocalArray", JSON.stringify(this.tasks));
       if (task.t === 1) {
         li.style.textDecoration = "line-through";
       }
@@ -40,13 +40,13 @@ class ToDo {
       }
       li.addEventListener("click", () => {
         (task.t = 1),
-          localStorage.setItem("tablica", JSON.stringify(this.tasks)),
+          localStorage.setItem("LocalArray", JSON.stringify(this.tasks)),
           (li.style.textDecoration = "line-through"),
           alert("Task completed");
       });
       butt.addEventListener("click", () => {
         this.tasks.splice(i, 1);
-        localStorage.setItem("tablica", JSON.stringify(this.tasks));
+        localStorage.setItem("LocalArray", JSON.stringify(this.tasks));
         this.render(arr);
       });
     });
@@ -66,7 +66,7 @@ class ToDo {
     all.innerText = "all";
     finisch.addEventListener("click", () => {
       const arr2 = [];
-      this.tasks.filter(function(el) {
+      this.tasks.filter(function (el) {
         if (el.t === 1) {
           arr2.push(el);
         }
@@ -80,7 +80,7 @@ class ToDo {
     });
     nfinisch.addEventListener("click", () => {
       const arr2 = [];
-      this.tasks.filter(function(el) {
+      this.tasks.filter(function (el) {
         if (el.t === 0) {
           arr2.push(el);
         }
@@ -111,22 +111,31 @@ class ToDo {
     butsrch.innerText = "Search";
     butsrch.addEventListener("click", () => {
       const arr2 = [];
-      console.log(inptsrch.value);
-      this.tasks.filter(function(el) {
-        if (el.text == inptsrch.value) {
+      this.tasks.filter(el => {
+        if (el.text.toLowerCase()
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, "") == inptsrch.value.toLowerCase()
+            .replace(/\s/g, '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, "")) {
+          console.log(el.text)
           arr2.push(el);
         }
-      });
+      })
       this.filterTasks = arr2;
       if (arr2.length === 0) {
-        alert("Task not find");
+        alert("Task not found");
       }
       console.log(this.filterTasks);
       this.render(this.filterTasks);
     });
+
     this.container.appendChild(inptsrch);
     this.container.appendChild(butsrch);
-  }
+  };
+
+
   renderElement() {
     const inp = document.createElement("input");
     const but = document.createElement("button");
@@ -137,7 +146,7 @@ class ToDo {
       this.addTask(inp.value);
     });
     butc.addEventListener("click", () => {
-      this.tasks = [],this.filterTasks = [], localStorage.clear(), this.render(this.filterTasks);
+      this.tasks = [], this.filterTasks = [], localStorage.clear(), this.render(this.filterTasks);
     });
     this.container.appendChild(inp);
     this.container.appendChild(but);
