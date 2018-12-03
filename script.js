@@ -115,10 +115,10 @@ class ToDo {
         if (el.text.toLowerCase()
           .replace(/\s/g, '')
           .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, "") == inptsrch.value.toLowerCase()
+          .replace(/[\u0300-\u036f]/g, "").includes(inptsrch.value.toLowerCase()
             .replace(/\s/g, '')
             .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, "")) {
+            .replace(/[\u0300-\u036f]/g, ""))) {
           console.log(el.text)
           arr2.push(el);
         }
